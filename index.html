@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRENDEX — Event Handling in JavaScript</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- CUSTOM CURSOR -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div id="scroll-bar"></div>
+
+  <!-- KEY INDICATOR TOAST -->
+  <div id="key-indicator">
+    <span>KEY PRESSED:</span>
+    <span class="ki-key" id="ki-key-val">—</span>
+    <span id="ki-code"></span>
+  </div>
+
+  <!-- ═══ NAVIGATION ═══ -->
+  <nav id="navbar">
+    <div class="nav-logo">TRENDEX</div>
+    <ul class="nav-links">
+      <li><a href="#trending">Trending</a></li>
+      <li><a href="#keyboard-demo">Keyboard</a></li>
+      <li><a href="#mouse-section">Mouse</a></li>
+      <li><a href="#code-section">Code</a></li>
+    </ul>
+    <button class="nav-cta" id="nav-cta-btn">Subscribe</button>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow fade-up">Live Event Handling</div>
+      <h1 class="hero-h1 fade-up delay-1">What the<br />World is<br /><em>Craving</em></h1>
+      <p class="hero-desc fade-up delay-2">
+        Discover the hottest trends of the moment — powered by real-time JavaScript
+        event handling. Click, hover, type and watch events fire live.
+      </p>
+      <div class="hero-btns fade-up delay-3">
+        <button class="btn-primary" id="explore-btn"><span>Explore Trends</span></button>
+        <button class="btn-secondary" id="demo-btn">See Events</button>
+      </div>
+      <div class="hero-search-wrap fade-up delay-4">
+        <input type="text" id="hero-search" placeholder="Search trends — try typing anything…" autocomplete="off" />
+        <span class="search-icon">⌕</span>
+        <div id="search-suggestions">
+          <div class="suggest-item"><span class="si-icon">↗</span> AI-powered gadgets</div>
+          <div class="suggest-item"><span class="si-icon">↗</span> Cottagecore fashion</div>
+          <div class="suggest-item"><span class="si-icon">↗</span> Matcha everything</div>
+          <div class="suggest-item"><span class="si-icon">↗</span> Silent travel</div>
+          <div class="suggest-item"><span class="si-icon">↗</span> Vinyl resurgence</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right" id="hero-right">
+      <div class="hero-bg-text" id="hero-bg-text">TREND</div>
+      <div class="hero-img-stack">
+        <div class="trend-badge" style="top:18%;left:10%;transform:rotate(-4deg)">
+          <span class="badge-num">01</span>
+          <span class="badge-label">Click Events</span>
+        </div>
+        <div class="trend-badge" style="top:38%;left:38%;transform:rotate(2deg)">
+          <span class="badge-num">47K</span>
+          <span class="badge-label">Hover Fires</span>
+        </div>
+        <div class="trend-badge" style="top:62%;left:12%;transform:rotate(-2deg)">
+          <span class="badge-num">∞</span>
+          <span class="badge-label">Key Events</span>
+        </div>
+        <div class="trend-badge" style="top:20%;right:8%;transform:rotate(5deg)">
+          <span class="badge-num">JS</span>
+          <span class="badge-label">Event API</span>
+        </div>
+        <div class="trend-badge" style="bottom:18%;right:14%;transform:rotate(-3deg)">
+          <span class="badge-num">↑↑</span>
+          <span class="badge-label">Scroll Events</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ EVENT STATUS BAR ═══ -->
+  <div id="event-bar">
+    <span class="event-bar-label">// Live Events</span>
+    <div class="event-chips">
+      <div class="event-chip" id="chip-click"><span class="dot"></span>click</div>
+      <div class="event-chip" id="chip-hover"><span class="dot"></span>mouseover</div>
+      <div class="event-chip" id="chip-key"><span class="dot"></span>keydown</div>
+      <div class="event-chip" id="chip-scroll"><span class="dot"></span>scroll</div>
+      <div class="event-chip" id="chip-focus"><span class="dot"></span>focus</div>
+      <div class="event-chip" id="chip-input"><span class="dot"></span>input</div>
+    </div>
+    <div id="live-event-log">Waiting for events…</div>
+  </div>
+
+  <!-- ═══ TRENDING GRID ═══ -->
+  <section id="trending">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">// Trending Now</div>
+        <h2 class="section-title">Most Searched<br /><em>This Week</em></h2>
+      </div>
+      <div class="filter-tabs">
+        <button class="ftab active" data-filter="all">All</button>
+        <button class="ftab" data-filter="tech">Tech</button>
+        <button class="ftab" data-filter="style">Style</button>
+        <button class="ftab" data-filter="food">Food</button>
+      </div>
+    </div>
+    <div class="cards-grid" id="cards-grid">
+      <!-- Cards injected by JS -->
+    </div>
+  </section>
+
+  <!-- ═══ KEYBOARD DEMO ═══ -->
+  <section id="keyboard-demo">
+    <div class="kd-header">
+      <div class="section-eyebrow" style="color:var(--gold)">// Keyboard Events</div>
+      <h2 class="kd-title">Type Something.<br />Watch <em>Events</em> Fire.</h2>
+      <div class="kd-sub">keydown · keyup · keypress · input</div>
+    </div>
+    <div class="kd-grid">
+      <div class="kd-panel">
+        <div class="kd-panel-title">Live Typing Area</div>
+        <textarea id="type-area" placeholder="Start typing to fire keyboard events…&#10;Try: Shift, Ctrl, Enter, Arrow keys…" rows="5"></textarea>
+        <div class="type-stats">
+          <div class="type-stat">Characters<span id="ts-chars">0</span></div>
+          <div class="type-stat">Words<span id="ts-words">0</span></div>
+          <div class="type-stat">Last Key<span id="ts-lastkey">—</span></div>
+          <div class="type-stat">Events<span id="ts-events">0</span></div>
+        </div>
+      </div>
+      <div class="kd-panel">
+        <div class="kd-panel-title">Key Event Properties</div>
+        <div id="key-display">
+          <div class="key-row" id="kr-key"><span class="key-name">event.key</span><span class="key-val" id="kv-key">—</span></div>
+          <div class="key-row" id="kr-code"><span class="key-name">event.code</span><span class="key-val" id="kv-code">—</span></div>
+          <div class="key-row" id="kr-which"><span class="key-name">event.which</span><span class="key-val" id="kv-which">—</span></div>
+          <div class="key-row" id="kr-shift"><span class="key-name">event.shiftKey</span><span class="key-val" id="kv-shift">false</span></div>
+          <div class="key-row" id="kr-ctrl"><span class="key-name">event.ctrlKey</span><span class="key-val" id="kv-ctrl">false</span></div>
+          <div class="key-row" id="kr-alt"><span class="key-name">event.altKey</span><span class="key-val" id="kv-alt">false</span></div>
+          <div class="key-row" id="kr-type"><span class="key-name">event.type</span><span class="key-val" id="kv-type">—</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MOUSE SECTION ═══ -->
+  <section id="mouse-section">
+    <div class="section-eyebrow">// Mouse Events</div>
+    <h2 class="section-title" style="margin-bottom:0">Move, Click, <em>Hover</em></h2>
+    <div class="mouse-grid">
+      <div>
+        <div id="mouse-canvas">
+          <span class="canvas-label">MOUSE TRAIL ZONE</span>
+        </div>
+        <div class="mouse-coords">
+          <div class="coord-item">X: <strong id="mx">—</strong></div>
+          <div class="coord-item">Y: <strong id="my">—</strong></div>
+          <div class="coord-item">Button: <strong id="mbtn">—</strong></div>
+          <button onclick="clearTrail()" class="clear-btn">CLEAR</button>
+        </div>
+      </div>
+      <div>
+        <div class="feed-label">
+          <span style="width:16px;height:1px;background:var(--rust);display:block"></span>
+          Live Event Feed
+        </div>
+        <div class="mouse-events-list" id="mouse-feed"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CODE SECTION ═══ -->
+  <section id="code-section">
+    <h2 class="code-section-title">The <em>Code</em> Behind It</h2>
+    <div class="code-section-sub">Real event handler implementations</div>
+    <div class="code-tabs">
+      <button class="ctab active" data-tab="click">click</button>
+      <button class="ctab" data-tab="hover">hover</button>
+      <button class="ctab" data-tab="keyboard">keyboard</button>
+      <button class="ctab" data-tab="mouse">mouse</button>
+      <button class="ctab" data-tab="scroll">scroll</button>
+    </div>
+
+    <div class="code-block visible" id="tab-click">
+<span class="cc">// ── Click Event Handler ──────────────────</span>
+<span class="ck">const</span> <span class="cp">button</span> = document.<span class="cf">querySelector</span>(<span class="cs">'.trend-card'</span>);
+
+button.<span class="cf">addEventListener</span>(<span class="cs">'click'</span>, <span class="ck">function</span>(<span class="cp">event</span>) {
+  <span class="cc">// event.target  → element that was clicked</span>
+  <span class="cc">// event.type    → 'click'</span>
+  <span class="cc">// event.clientX → X position of click</span>
+  console.<span class="cf">log</span>(<span class="cs">'Clicked at:'</span>, event.clientX, event.clientY);
+  event.target.<span class="cf">classList</span>.<span class="cf">toggle</span>(<span class="cs">'liked'</span>);
+});
+
+<span class="cc">// Double-click event</span>
+button.<span class="cf">addEventListener</span>(<span class="cs">'dblclick'</span>, (<span class="cp">e</span>) => {
+  e.target.style.transform = <span class="cs">'scale(1.05)'</span>;
+});
+
+<span class="cc">// Prevent default + stop propagation</span>
+link.<span class="cf">addEventListener</span>(<span class="cs">'click'</span>, (<span class="cp">e</span>) => {
+  e.<span class="cf">preventDefault</span>();
+  e.<span class="cf">stopPropagation</span>();
+});
+    </div>
+
+    <div class="code-block" id="tab-hover">
+<span class="cc">// ── Mouse Hover Events ───────────────────</span>
+<span class="ck">const</span> <span class="cp">card</span> = document.<span class="cf">querySelector</span>(<span class="cs">'.trend-card'</span>);
+
+<span class="cc">// mouseover — fires on element AND children</span>
+card.<span class="cf">addEventListener</span>(<span class="cs">'mouseover'</span>, (<span class="cp">e</span>) => {
+  e.target.style.boxShadow = <span class="cs">'0 20px 50px rgba(0,0,0,0.15)'</span>;
+});
+
+<span class="cc">// mouseenter — fires only on the element itself</span>
+card.<span class="cf">addEventListener</span>(<span class="cs">'mouseenter'</span>, (<span class="cp">e</span>) => {
+  card.<span class="cf">classList</span>.<span class="cf">add</span>(<span class="cs">'hovered'</span>);
+});
+
+<span class="cc">// mouseleave — fires when pointer leaves element</span>
+card.<span class="cf">addEventListener</span>(<span class="cs">'mouseleave'</span>, (<span class="cp">e</span>) => {
+  card.<span class="cf">classList</span>.<span class="cf">remove</span>(<span class="cs">'hovered'</span>);
+});
+
+<span class="cc">// Track relative position within element</span>
+card.<span class="cf">addEventListener</span>(<span class="cs">'mousemove'</span>, (<span class="cp">e</span>) => {
+  <span class="ck">const</span> rect = card.<span class="cf">getBoundingClientRect</span>();
+  <span class="ck">const</span> x = e.clientX - rect.left;
+  <span class="ck">const</span> y = e.clientY - rect.top;
+  console.<span class="cf">log</span>(<span class="cs">`Mouse at: (${x}, ${y})`</span>);
+});
+    </div>
+
+    <div class="code-block" id="tab-keyboard">
+<span class="cc">// ── Keyboard Events ──────────────────────</span>
+document.<span class="cf">addEventListener</span>(<span class="cs">'keydown'</span>, (<span class="cp">event</span>) => {
+  console.<span class="cf">log</span>(event.key);    <span class="cc">// 'a', 'Enter', 'ArrowUp'…</span>
+  console.<span class="cf">log</span>(event.code);   <span class="cc">// 'KeyA', 'Enter', 'ArrowUp'…</span>
+  console.<span class="cf">log</span>(event.which);  <span class="cc">// char code (legacy)</span>
+
+  <span class="ck">if</span> (event.shiftKey) { <span class="cc">/* Shift held */</span> }
+  <span class="ck">if</span> (event.ctrlKey)  { <span class="cc">/* Ctrl held  */</span> }
+  <span class="ck">if</span> (event.altKey)   { <span class="cc">/* Alt held   */</span> }
+
+  <span class="cc">// Ctrl+K keyboard shortcut</span>
+  <span class="ck">if</span> (event.ctrlKey <span class="co">&&</span> event.key <span class="co">===</span> <span class="cs">'k'</span>) {
+    <span class="cf">openSearch</span>();
+  }
+});
+
+document.<span class="cf">addEventListener</span>(<span class="cs">'keyup'</span>,    (<span class="cp">e</span>) => { <span class="cc">/* key released */</span> });
+document.<span class="cf">addEventListener</span>(<span class="cs">'keypress'</span>, (<span class="cp">e</span>) => { <span class="cc">/* printable char */</span> });
+    </div>
+
+    <div class="code-block" id="tab-mouse">
+<span class="cc">// ── Mouse Events Reference ───────────────</span>
+<span class="ck">const</span> <span class="cp">zone</span> = document.<span class="cf">getElementById</span>(<span class="cs">'mouse-canvas'</span>);
+
+zone.<span class="cf">addEventListener</span>(<span class="cs">'mousemove'</span>, (<span class="cp">e</span>) => {
+  <span class="ck">const</span> { clientX, clientY, offsetX, offsetY } = e;
+  <span class="cf">renderTrail</span>(offsetX, offsetY);
+});
+
+<span class="cc">// Detect which mouse button</span>
+zone.<span class="cf">addEventListener</span>(<span class="cs">'mousedown'</span>, (<span class="cp">e</span>) => {
+  <span class="ck">switch</span>(e.button) {
+    <span class="ck">case</span> <span class="cp">0</span>: <span class="cf">handleLeft</span>();   <span class="ck">break</span>;
+    <span class="ck">case</span> <span class="cp">1</span>: <span class="cf">handleMiddle</span>(); <span class="ck">break</span>;
+    <span class="ck">case</span> <span class="cp">2</span>: <span class="cf">handleRight</span>();  <span class="ck">break</span>;
+  }
+});
+
+zone.<span class="cf">addEventListener</span>(<span class="cs">'wheel'</span>, (<span class="cp">e</span>) => {
+  e.<span class="cf">preventDefault</span>();
+  console.<span class="cf">log</span>(e.deltaY);
+});
+    </div>
+
+    <div class="code-block" id="tab-scroll">
+<span class="cc">// ── Scroll Events ────────────────────────</span>
+window.<span class="cf">addEventListener</span>(<span class="cs">'scroll'</span>, () => {
+  <span class="ck">const</span> scrollY   = window.scrollY;
+  <span class="ck">const</span> docHeight = document.body.scrollHeight - window.innerHeight;
+  <span class="ck">const</span> progress  = (scrollY / docHeight) * <span class="cp">100</span>;
+  progressBar.style.width = <span class="cs">`${progress}%`</span>;
+
+  <span class="ck">if</span> (scrollY > <span class="cp">50</span>) {
+    navbar.<span class="cf">classList</span>.<span class="cf">add</span>(<span class="cs">'scrolled'</span>);
+  } <span class="ck">else</span> {
+    navbar.<span class="cf">classList</span>.<span class="cf">remove</span>(<span class="cs">'scrolled'</span>);
+  }
+});
+
+<span class="cc">// Intersection Observer (scroll trigger)</span>
+<span class="ck">const</span> observer = <span class="ck">new</span> <span class="cf">IntersectionObserver</span>((<span class="cp">entries</span>) => {
+  entries.<span class="cf">forEach</span>((<span class="cp">entry</span>) => {
+    <span class="ck">if</span> (entry.isIntersecting) {
+      entry.target.<span class="cf">classList</span>.<span class="cf">add</span>(<span class="cs">'in-view'</span>);
+    }
+  });
+}, { threshold: <span class="cp">0.2</span> });
+
+document.<span class="cf">querySelectorAll</span>(<span class="cs">'.trend-card'</span>)
+  .<span class="cf">forEach</span>(<span class="cp">el</span> => observer.<span class="cf">observe</span>(el));
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-logo">TRENDEX</div>
+    <div class="footer-events">
+      <span class="fevt">click</span>
+      <span class="fevt">dblclick</span>
+      <span class="fevt">mouseover</span>
+      <span class="fevt">mouseenter</span>
+      <span class="fevt">mousemove</span>
+      <span class="fevt">keydown</span>
+      <span class="fevt">keyup</span>
+      <span class="fevt">keypress</span>
+      <span class="fevt">scroll</span>
+      <span class="fevt">focus</span>
+      <span class="fevt">input</span>
+      <span class="fevt">wheel</span>
+    </div>
+    <div class="footer-copy">© 2025 TRENDEX — JavaScript Event Handling Demo</div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
